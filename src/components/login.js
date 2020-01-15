@@ -8,22 +8,23 @@ class Login extends Component {
       email: "",
       password: "",
     };
-    Axios.defaults.baseURL = "https://github.com/LiviuNicu/angular-fmi-lab";
+    Axios.defaults.baseURL = "https://salty-sands-74195.herokuapp.com/";
   }
 
-  register() {
+  login() {
     const newUser = {
     email: this.state.email,
     password: this.state.password
     }
-  this.registerUserReq(newUser);
+    console.log(newUser)
+  this.loginRequest(newUser);
   }
 
-  registerUserReq(user) {
+  loginRequest(user) {
     Axios.post("/login", user)
       .then(response => {
-        window.location.replace("/");
         console.log(response);
+        window.location.replace("/new");
       })
       .catch(error => {});
   }
@@ -44,7 +45,7 @@ class Login extends Component {
                 this.setState({ password: ev.target.value })
               }/>
           </div>
-          <button className="btn btn-success" onClick={() => this.register()}>
+          <button className="btn btn-success" onClick={() => this.login()}>
             Login
           </button>
         </div>

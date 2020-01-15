@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Button } from 'reactstrap';
-import { BrowserRouter as Router, Link } from "react-router-dom";
 
 class Match extends Component {
   constructor(props) {
@@ -13,6 +12,9 @@ class Match extends Component {
       player2points: 0,
       gameOver: false
     }
+    console.log(this.state.maxpoints);
+    console.log(this.state.player1);    
+    console.log(this.state.player2);
     this.addPointsToPlayer1 = this.addPointsToPlayer1.bind(this);
     this.addPointsToPlayer2 = this.addPointsToPlayer2.bind(this);
   }
@@ -21,12 +23,8 @@ class Match extends Component {
     this.setState(prevState => {
       return {player1points : prevState.player1points + 1}
     });
-    console.log(this.state.player1points);
-    console.log(this.state.maxpoints);
     if(this.state.player1points == this.state.maxpoints - 1) {
-      console.log(this.state.gameOver);
       this.setState({gameOver : true, player1won: true});
-      console.log(this.state.gameOver);
       let button = document.getElementById('scorebutton1');
       button.style.pointerEvents = 'none';
       button.color = "secondary";

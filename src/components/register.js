@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { registerUser } from "../actions";
+import { useSelector, useDispatch } from "react-redux";
 import Axios from "axios";
-
-
+import { useHistory } from "react-router-dom";
+let dispatch;
 class Register extends Component {
   history;
   constructor() {
@@ -10,37 +12,39 @@ class Register extends Component {
       name: "",
       email: "",
       password: "",
-      confirm_password: ""
+      confirm_password: "",
+      users: []
     };
-    Axios.defaults.baseURL = "https://github.com/LiviuNicu/angular-fmi-lab";
+    Axios.defaults.baseURL = "https://salty-sands-74195.herokuapp.com/";
   }
 
   componentDidMount() {
     //dispatch = useDispatch();
   }
-
   register() {
     const newUser = {
-    name: this.state.name,
-    email: this.state.email,
-    passwords: {
-      password: this.state.password,
-      confirm_password: this.state.confirm_password
-    }
-  };
-  this.registerUserReq(newUser);
+      name: this.state.name,
+      email: this.state.email,
+      passwords: {
+        password: this.state.password,
+        confirm_password: this.state.confirm_password
+      }
+    };
+    this.registerUserReq(newUser);
+    this.setState({ users: [newUser, ...this.state.users] });
   }
 
   registerUserReq(user) {
-    Axios.post("/user/register", user)
+    Axios.post("user/register", user)
       .then(response => {
-        window.location.replace("/login");
         console.log(response);
+        window.location.replace("/login");
       })
       .catch(error => {});
   }
 
   render() {
+    let users = [];
 
     return (
       <div>
@@ -88,6 +92,11 @@ class Register extends Component {
             Register
           </button>
         </div>
+        <ul>
+          {users.map(item => {
+            return <li key={item.email}>{item.name}</li>;
+          })}
+        </ul>
       </div>
     );
   }
